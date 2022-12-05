@@ -1,80 +1,141 @@
 library galleryimage;
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/link.dart';
+import 'package:galleryimage/gallery_image_view_wrapper.dart';
+import 'package:galleryimage/gallery_item_model.dart';
+import 'package:galleryimage/gallery_item_thumbnail.dart';
 
-import 'gallery_item_model.dart';
-import 'gallery_item_thumbnail.dart';
-import './gallery_image_view_wrapper.dart';
-import './util.dart';
+class GridViewImages extends StatefulWidget {
+  final int numOfShowItems;
+  final String titleGallery;
 
-class GalleryImage extends StatefulWidget {
-  final List<String> imageUrls;
-  final String? titleGallery;
-  final int numOfShowImages;
-
-  const GalleryImage(
-      {Key? key,
-      required this.imageUrls,
-      this.titleGallery,
-      this.numOfShowImages = 3})
-      : assert(numOfShowImages <= imageUrls.length),
-        super(key: key);
+  GridViewImages(
+      {required this.titleGallery,
+        // required this.imageUrls,
+        this.numOfShowItems = 3})
+  // : assert(numOfShowItems <= imageUrls.length, )
+      ;
   @override
-  State<GalleryImage> createState() => _GalleryImageState();
+  State<GridViewImages> createState() => _GridViewImagesState();
 }
 
-class _GalleryImageState extends State<GalleryImage> {
-  List<GalleryItemModel> galleryItems = <GalleryItemModel>[];
+class _GridViewImagesState extends State<GridViewImages> {
+  late final List<String> imageUrls = <String>[];
+  late final List<GalleryItemModel> galleryItems = <GalleryItemModel>[];
+
+  List<String> imageURLs = [
+    "https://scx2.b-cdn.net/gfx/news/hires/2019/2-nature.jpg",
+    "https://tahh3ccmtxa7trnk.s3.me-south-1.amazonaws.com/3ff5b5f1-6d92-46a3-ba58-7ad4df4defa5",
+    // "https://upload.wikimedia.org/wikipedia/commons/7/77/Big_Nature_%28155420955%29.jpeg",
+    // "https://tahh3ccmtxa7trnk.s3.me-south-1.amazonaws.com/3ff5b5f1-6d92-46a3-ba58-7ad4df4defa5",
+    // "https://upload.wikimedia.org/wikipedia/commons/7/77/Big_Nature_%28155420955%29.jpeg",
+  ];
+
+  List<String> ytURLs = [
+    "https://www.youtube.com/watch?v=qPj50i3gkAo",
+    "https://www.youtube.com/watch?v=R4jQemNpxn4",
+    "https://www.youtube.com/watch?v=X-yIEMduRXk&list=RDX-yIEMduRXk&start_radio=1",
+    // "https://www.youtube.com/watch?v=qPj50i3gkAo",
+    // "https://www.youtube.com/watch?v=R4jQemNpxn4",
+  ];
   @override
   void initState() {
-    buildItemsList(widget.imageUrls);
+    buildItemsList(imageURLs, ytURLs);
     super.initState();
   }
 
+  String buildVideoThumbnail(String url) {
+    print(url);
+    var videoID = Uri.parse('$url').queryParameters['v'];
+    print('bbbbbbbbbbbbbbbbbbb $videoID');
+    String image = 'https://img.youtube.com/vi/$videoID/hqdefault.jpg';
+    return image;
+  }
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(10),
+    return Scaffold(
+      body: Center(
         child: galleryItems.isEmpty
-            ? getEmptyWidget()
+            ? const SizedBox.shrink()
             : GridView.builder(
-                primary: false,
-                itemCount: galleryItems.length > 3
-                    ? widget.numOfShowImages
-                    : galleryItems.length,
-                padding: const EdgeInsets.all(0),
-                semanticChildCount: 1,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, mainAxisSpacing: 0, crossAxisSpacing: 5),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      // if have less than 4 image w build GalleryItemThumbnail
-                      // if have mor than 4 build image number 3 with number for other images
-                      child: index < galleryItems.length - 1 &&
-                              index == widget.numOfShowImages - 1
-                          ? buildImageNumbers(index)
-                          : GalleryItemThumbnail(
-                              galleryItem: galleryItems[index],
-                              onTap: () {
-                                openImageFullScreen(index);
-                              },
-                            ));
-                }));
+            primary: false,
+            itemCount:
+            galleryItems.length > 3 ? widget.numOfShowItems : galleryItems.length,
+            padding: const EdgeInsets.all(0),
+            semanticChildCount: 1,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5),
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                // if have less than 4 image w build GalleryItemThumbnail
+                // if have mor than 4 build image number 3 with number for other images
+                child: index < galleryItems.length - 1 &&
+                    index == widget.numOfShowItems - 1
+                    ? buildImageNumbers(index)
+                    : galleryItems[index].isVideo == true
+                    ? Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.network(
+                      galleryItems[index].imageUrl,
+                    ),
+                    Link(
+                        target: LinkTarget.self,
+                        uri: Uri.parse(
+                            '${galleryItems[index].videoUrl}'),
+                        builder: (context, followLink) =>
+                            OutlinedButton(
+                              onPressed: followLink,
+                              child: Image.asset(
+                                  'images/youtube_icon.png'),
+                            )),
+                  ],
+                )
+                    : GalleryItemThumbnail(
+                  galleryItem: galleryItems[index],
+                  onTap: () {
+                    openImageFullScreen(index);
+                  },
+                ),
+              );
+            }),
+      ),
+    );
   }
 
 // build image with number for other images
   Widget buildImageNumbers(int index) {
     return GestureDetector(
       onTap: () {
+        print('mmmmmm${galleryItems.map((e) => e.imageUrl).toList()}');
         openImageFullScreen(index);
       },
       child: Stack(
         alignment: AlignmentDirectional.center,
         fit: StackFit.expand,
         children: <Widget>[
-          GalleryItemThumbnail(
+          galleryItems[index].isVideo == true
+              ? Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.network(
+                galleryItems[index].imageUrl,
+              ),
+              Link(
+                  target: LinkTarget.self,
+                  uri: Uri.parse('${galleryItems[index].videoUrl}'),
+                  builder: (context, followLink) => OutlinedButton(
+                    onPressed: followLink,
+                    child: Image.asset('images/youtube_icon.png'),
+                  )),
+            ],
+          )
+              : GalleryItemThumbnail(
             galleryItem: galleryItems[index],
           ),
           Container(
@@ -110,12 +171,25 @@ class _GalleryImageState extends State<GalleryImage> {
   }
 
 // clear and build list
-  buildItemsList(List<String> items) {
+  buildItemsList(List<String> images, List<String> videos) {
+    print('1');
     galleryItems.clear();
-    for (var item in items) {
+    for (int i = 0; i < images.length; i++) {
       galleryItems.add(
-        GalleryItemModel(id: item, imageUrl: item),
+        GalleryItemModel('', id: images[i], imageUrl: images[i], isVideo: false),
+
       );
+      print(galleryItems[i].imageUrl);
     }
+    for (int i = 0; i < videos.length; i++) {
+      galleryItems.add(GalleryItemModel(
+        '${videos[i]}',
+          id: videos[i],
+          imageUrl: buildVideoThumbnail(videos[i]),
+          isVideo: true,
+          ));
+      print(galleryItems[i].imageUrl);
+    }
+    imageUrls.addAll(galleryItems.map((e) => e.imageUrl).toList());
   }
 }
