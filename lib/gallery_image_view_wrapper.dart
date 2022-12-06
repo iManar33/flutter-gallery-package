@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-
+import 'package:url_launcher/link.dart';
 import 'gallery_item_model.dart';
 
 // to view image in full screen
@@ -63,12 +63,29 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   PhotoViewGalleryPageOptions _buildImage(BuildContext context, int index) {
     final GalleryItemModel item = widget.galleryItems[index];
     return PhotoViewGalleryPageOptions.customChild(
-      child: CachedNetworkImage(
-        imageUrl: item.imageUrl,
-        placeholder: (context, url) =>
-            const Center(child: CircularProgressIndicator()),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-      ),
+      child: item.isVideo ==  true?
+      Stack(
+          alignment: AlignmentDirectional.center,
+          fit: StackFit.expand,
+        children : [
+          Image.network(
+            item.imageUrl,
+          ),
+      Link(
+      target: LinkTarget.self,
+          uri: Uri.parse('${item.videoUrl}'),
+          builder: (context, followLink) => OutlinedButton(
+            onPressed: followLink,
+            child: Image.asset('images/youtube_icon.png'),
+          ))
+        ])
+        : CachedNetworkImage(
+          imageUrl: item.imageUrl,
+          placeholder: (context, url) =>
+              const Center(child: CircularProgressIndicator()),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
+
       initialScale: PhotoViewComputedScale.contained,
       minScale: minScale,
       maxScale: maxScale,
