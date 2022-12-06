@@ -9,11 +9,14 @@ import 'package:galleryimage/gallery_item_thumbnail.dart';
 class GridViewImages extends StatefulWidget {
   final int numOfShowItems;
   final String titleGallery;
+  final List<String> imageUrls;
+  final List<String> videoUrls;
 
   GridViewImages(
       {required this.titleGallery,
-      // required this.imageUrls,
-      this.numOfShowItems = 3})
+      required this.imageUrls,
+        required this.videoUrls,
+       required this.numOfShowItems })
   // : assert(numOfShowItems <= imageUrls.length, )
   ;
 
@@ -22,28 +25,12 @@ class GridViewImages extends StatefulWidget {
 }
 
 class _GridViewImagesState extends State<GridViewImages> {
-  late final List<String> imageUrls = <String>[];
+  // late final List<String> imageUrls = <String>[];
   late final List<GalleryItemModel> galleryItems = <GalleryItemModel>[];
-
-  List<String> imageURLs = [
-    "https://scx2.b-cdn.net/gfx/news/hires/2019/2-nature.jpg",
-    "https://tahh3ccmtxa7trnk.s3.me-south-1.amazonaws.com/3ff5b5f1-6d92-46a3-ba58-7ad4df4defa5",
-    // "https://upload.wikimedia.org/wikipedia/commons/7/77/Big_Nature_%28155420955%29.jpeg",
-    // "https://tahh3ccmtxa7trnk.s3.me-south-1.amazonaws.com/3ff5b5f1-6d92-46a3-ba58-7ad4df4defa5",
-    // "https://upload.wikimedia.org/wikipedia/commons/7/77/Big_Nature_%28155420955%29.jpeg",
-  ];
-
-  List<String> ytURLs = [
-    "https://www.youtube.com/watch?v=qPj50i3gkAo",
-    "https://www.youtube.com/watch?v=R4jQemNpxn4",
-    "https://www.youtube.com/watch?v=X-yIEMduRXk&list=RDX-yIEMduRXk&start_radio=1",
-    // "https://www.youtube.com/watch?v=qPj50i3gkAo",
-    // "https://www.youtube.com/watch?v=R4jQemNpxn4",
-  ];
 
   @override
   void initState() {
-    buildItemsList(imageURLs, ytURLs);
+    buildItemsList(widget.imageUrls, widget.videoUrls);
     super.initState();
   }
 
@@ -192,6 +179,6 @@ class _GridViewImagesState extends State<GridViewImages> {
       ));
       print(galleryItems[i].imageUrl);
     }
-    imageUrls.addAll(galleryItems.map((e) => e.imageUrl).toList());
+    // imageUrls.addAll(galleryItems.map((e) => e.imageUrl).toList());
   }
 }
