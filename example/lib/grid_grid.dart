@@ -21,34 +21,35 @@ class GridGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Center(
-          child:ListView(
-            children: [
-              SizedBox(
-                height: size.height,
-                width: size.width,
-                child: GridViewImages(
-                  titleGallery: 'Images Gallery',
-                  titleGrid: 'الصور ',
-                  imageUrls: imageURLs,
-                  videoUrls: null,
-                  numOfShowItems: 4,
-                ),
+    return SafeArea(
+      child: Scaffold(
+        body: ListView(
+          children: [
+            SizedBox(
+              height: size.height,
+              width: size.width,
+              child: GridViewImages(
+                titleGallery: 'Images Gallery',
+                titleGrid: 'الصور ',
+                imageUrls: imageURLs,
+                videoUrls: null,
+                numOfShowItems: 4,
               ),
-              SizedBox(
-                height: size.height,
-                width: size.width,
-                child: GridViewImages(
-                  titleGallery: 'Videos Gallery',
-                  titleGrid: 'الفيديوهات ',
-                  imageUrls: null,
-                  videoUrls: ytURLs,
-                  numOfShowItems: 4,
-                ),
+            ),
+            SizedBox(
+              height: size.height,
+              width: size.width,
+              child: GridViewImages(
+                titleGallery: 'Videos Gallery',
+                titleGrid: 'الفيديوهات ',
+                imageUrls: null,
+                videoUrls: ytURLs,
+                numOfShowItems: 4,
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

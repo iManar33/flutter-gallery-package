@@ -70,6 +70,7 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
         children : [
           Image.network(
             item.imageUrl,
+            fit: BoxFit.cover,
           ),
       Link(
       target: LinkTarget.self,

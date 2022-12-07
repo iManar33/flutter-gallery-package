@@ -53,9 +53,12 @@ class _GridViewImagesState extends State<GridViewImages> {
           child: galleryItems.isEmpty
               ? const SizedBox.shrink()
               : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 9.0,
+                    ),
                     Text(
                       '${widget.titleGrid} (${galleryItems.length})',
                       textAlign: TextAlign.right,
@@ -83,40 +86,38 @@ class _GridViewImagesState extends State<GridViewImages> {
                                 crossAxisSpacing: 5),
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
-                          return ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                            // if have less than 4 image w build GalleryItemThumbnail
-                            // if have mor than 4 build image number 3 with number for other images
-                            child: index < galleryItems.length - 1 &&
-                                    index == widget.numOfShowItems - 1
-                                ? buildImageNumbers(index)
-                                : galleryItems[index].isVideo == true
-                                    ? Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          Image.network(
-                                            galleryItems[index].imageUrl,
-                                          ),
-                                          Link(
-                                              target: LinkTarget.self,
-                                              uri: Uri.parse(
-                                                  '${galleryItems[index].videoUrl}'),
-                                              builder: (context, followLink) =>
-                                                  OutlinedButton(
-                                                    onPressed: followLink,
-                                                    child: Image.asset(
-                                                        'images/youtube_icon.png'),
-                                                  )),
-                                        ],
-                                      )
-                                    : GalleryItemThumbnail(
-                                        galleryItem: galleryItems[index],
-                                        onTap: () {
-                                          openImageFullScreen(index);
-                                        },
-                                      ),
-                          );
+                          // return ClipRRect(
+                          //     borderRadius:
+                          //     const BorderRadius.all(Radius.circular(8)),
+                          return index < galleryItems.length - 1 &&
+                                  index == widget.numOfShowItems - 1
+                              ? buildImageNumbers(index)
+                              : galleryItems[index].isVideo == true
+                                  ? Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Image.network(
+                                          galleryItems[index].imageUrl,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Link(
+                                            target: LinkTarget.self,
+                                            uri: Uri.parse(
+                                                '${galleryItems[index].videoUrl}'),
+                                            builder: (context, followLink) =>
+                                                OutlinedButton(
+                                                  onPressed: followLink,
+                                                  child: Image.asset(
+                                                      'images/youtube_icon.png'),
+                                                )),
+                                      ],
+                                    )
+                                  : GalleryItemThumbnail(
+                                      galleryItem: galleryItems[index],
+                                      onTap: () {
+                                        openImageFullScreen(index);
+                                      },
+                                    );
                         }),
                   ],
                 ),
@@ -141,6 +142,7 @@ class _GridViewImagesState extends State<GridViewImages> {
                   children: [
                     Image.network(
                       galleryItems[index].imageUrl,
+                      fit: BoxFit.cover,
                     ),
                     Link(
                         target: LinkTarget.self,
