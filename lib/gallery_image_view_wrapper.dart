@@ -71,6 +71,8 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
           Image.network(
             item.imageUrl,
             fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
           ),
       Link(
       target: LinkTarget.self,

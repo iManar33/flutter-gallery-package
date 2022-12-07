@@ -40,7 +40,7 @@ class _GridViewImagesState extends State<GridViewImages> {
     print(url);
     var videoID = Uri.parse('$url').queryParameters['v'];
     print('bbbbbbbbbbbbbbbbbbb $videoID');
-    String image = 'https://img.youtube.com/vi/$videoID/hqdefault.jpg';
+    String image = 'https://img.youtube.com/vi/$videoID/maxresdefault.jpg';
     return image;
   }
 
@@ -99,6 +99,8 @@ class _GridViewImagesState extends State<GridViewImages> {
                                         Image.network(
                                           galleryItems[index].imageUrl,
                                           fit: BoxFit.cover,
+                                          height: MediaQuery.of(context).size.height,
+                                          width: MediaQuery.of(context).size.width,
                                         ),
                                         Link(
                                             target: LinkTarget.self,
@@ -143,6 +145,8 @@ class _GridViewImagesState extends State<GridViewImages> {
                     Image.network(
                       galleryItems[index].imageUrl,
                       fit: BoxFit.cover,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
                     ),
                     Link(
                         target: LinkTarget.self,

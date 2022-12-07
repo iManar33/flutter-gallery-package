@@ -21,7 +21,8 @@ class GalleryItemThumbnail extends StatelessWidget {
         child: CachedNetworkImage(
           fit: BoxFit.cover,
           imageUrl: galleryItem.imageUrl,
-          height: 100.0,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           placeholder: (context, url) =>
               const Center(child: CircularProgressIndicator()),
           errorWidget: (context, url, error) => const Icon(Icons.error),
