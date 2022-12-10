@@ -150,9 +150,10 @@ class _GridViewImagesState extends State<GridViewImages> {
           GalleryItemModel(id: e, videoUrl: "", imageUrl: e, isVideo: false)));
     }
     if (videos != null) {
-      for (int i = 0; i < videos.length; i++) {
-        galleryItems.add(GalleryItemModel(id: videos[i], videoUrl: videos[i], imageUrl: buildVideoThumbnail(videos[i]), isVideo: true));
-      }
+      // for (int i = 0; i < videos.length; i++) {
+      //   galleryItems.add(GalleryItemModel(id: videos[i], videoUrl: videos[i], imageUrl: buildVideoThumbnail(videos[i]), isVideo: true));
+      // }
+      galleryItems.addAll(videos.map((e) => GalleryItemModel(id: e, videoUrl: e, imageUrl: buildVideoThumbnail(e), isVideo: true)));
     }
   }
 }
