@@ -63,31 +63,28 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   PhotoViewGalleryPageOptions _buildImage(BuildContext context, int index) {
     final GalleryItemModel item = widget.galleryItems[index];
     return PhotoViewGalleryPageOptions.customChild(
-      child: item.isVideo ==  true?
-      Stack(
+
+    child:  Stack(
           alignment: AlignmentDirectional.center,
           fit: StackFit.expand,
         children : [
-          Image.network(
-            item.imageUrl,
-            fit: BoxFit.cover,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+          CachedNetworkImage(
+            imageUrl: item.imageUrl,
+            placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
+          if (item.isVideo == true)
       Link(
       target: LinkTarget.self,
           uri: Uri.parse('${item.videoUrl}'),
           builder: (context, followLink) => OutlinedButton(
             onPressed: followLink,
             child: Image.asset('images/youtube_icon.png'),
-          ))
-        ])
-        : CachedNetworkImage(
-          imageUrl: item.imageUrl,
-          placeholder: (context, url) =>
-              const Center(child: CircularProgressIndicator()),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
+          )),
+        ]),
+
+
 
       initialScale: PhotoViewComputedScale.contained,
       minScale: minScale,

@@ -30,8 +30,6 @@ class GridGrid extends StatelessWidget {
               height: size.height,
               width: size.width,
               child: GridViewImages(
-                titleGallery: 'Images Gallery',
-                titleGrid: 'الصور ',
                 imageUrls: imageURLs,
                 videoUrls: null,
                 numOfShowItems: 4,
@@ -41,8 +39,6 @@ class GridGrid extends StatelessWidget {
               height: size.height,
               width: size.width,
               child: GridViewImages(
-                titleGallery: 'Videos Gallery',
-                titleGrid: 'الفيديوهات ',
                 imageUrls: null,
                 videoUrls: ytURLs,
                 numOfShowItems: 4,
