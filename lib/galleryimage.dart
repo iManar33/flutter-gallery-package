@@ -7,11 +7,12 @@ import 'package:galleryimage/gallery_item_model.dart';
 import 'package:galleryimage/gallery_item_thumbnail.dart';
 
 class GridViewImages extends StatefulWidget {
-  final int numOfShowItems;
+
   final List<String>? imageUrls;
   final List<String>? videoUrls;
+  final int numOfEnteredItems;
 
-  GridViewImages({this.imageUrls, this.videoUrls, required this.numOfShowItems})
+  GridViewImages({required this.imageUrls,required this.videoUrls,required this.numOfEnteredItems,})
   // : assert(numOfShowItems <= imageUrls.length, )
   ;
 
@@ -20,12 +21,13 @@ class GridViewImages extends StatefulWidget {
 }
 
 class _GridViewImagesState extends State<GridViewImages> {
-  // late final List<String> imageUrls = <String>[];
+  late int numOfShowItems;
   late final List<GalleryItemModel> galleryItems = <GalleryItemModel>[];
 
   @override
   void initState() {
     buildItemsList(widget.imageUrls, widget.videoUrls);
+
     super.initState();
   }
 
@@ -39,54 +41,103 @@ class _GridViewImagesState extends State<GridViewImages> {
 
   @override
   Widget build(BuildContext context) {
+    final double runSpacing = 4;
+    final w = (MediaQuery.of(context).size.width - runSpacing * (2 - 1)) /
+        2; // 2= cross axis count
+
     return Scaffold(
-        body: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: Center(
         child: galleryItems.isEmpty
             ? const SizedBox.shrink()
-            : GridView.builder(
-                primary: false,
-                itemCount: galleryItems.length > 3
-                    ? widget.numOfShowItems
-                    : galleryItems.length,
-                padding: const EdgeInsets.all(0),
-                semanticChildCount: 1,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  // return ClipRRect(
-                  //     borderRadius:
-                  //     const BorderRadius.all(Radius.circular(8)),
-                  return index < galleryItems.length - 1 &&
-                          index == widget.numOfShowItems - 1
-                      ? buildImageNumbers(index)
-                      : Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            GalleryItemThumbnail(
-                              galleryItem: galleryItems[index],
-                              onTap: () {
-                                openImageFullScreen(index);
-                              },
-                            ),
-                            if (galleryItems[index].isVideo == true)
-                              Link(
-                                  target: LinkTarget.self,
-                                  uri: Uri.parse(
-                                      galleryItems[index].videoUrl),
-                                  builder: (context, followLink) =>
-                                      OutlinedButton(
-                                        onPressed: followLink,
-                                        child: Image.asset(
-                                            'images/youtube_icon.png'),
-                                      )),
-                          ],
-                        );
-                }),
+            : numOfShowItems <= 3
+                ? Wrap(
+                    alignment: WrapAlignment.center,
+                    runSpacing: 8,
+                    spacing: 8,
+                    // direction: Axis.horizontal,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: List.generate(
+                      numOfShowItems,
+                      (index) => Container(
+                        color: Colors.transparent,
+                          width: w - 10,
+                          height: w - 10,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              GalleryItemThumbnail(
+                                galleryItem: galleryItems[index],
+                                onTap: () {
+                                  openImageFullScreen(index);
+                                },
+                              ),
+                              if (galleryItems[index].isVideo == true)
+                                Link(
+                                    target: LinkTarget.self,
+                                    uri:
+                                        Uri.parse(galleryItems[index].videoUrl),
+                                    builder: (context, followLink) =>
+                                        OutlinedButton(
+                                          onPressed: followLink,
+                                          child: Image.asset(
+                                              'images/youtube_icon.png'),
+                                        )),
+                            ],
+                          )),
+                    ))
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GridView.builder(
+                        primary: false,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: galleryItems.length > 3
+                            ? numOfShowItems
+                            : galleryItems.length,
+                        padding: const EdgeInsets.all(0),
+                        semanticChildCount: 1,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 5,
+                                crossAxisSpacing: 5),
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          // return ClipRRect(
+                          //     borderRadius:
+                          //     const BorderRadius.all(Radius.circular(8)),
+                          return index < galleryItems.length - 1 &&
+                                  index == numOfShowItems - 1
+                              ? buildImageNumbers(index)
+                              :
+                              // child:
+                              Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    GalleryItemThumbnail(
+                                      galleryItem: galleryItems[index],
+                                      onTap: () {
+                                        openImageFullScreen(index);
+                                      },
+                                    ),
+                                    if (galleryItems[index].isVideo == true)
+                                      Link(
+
+                                          target: LinkTarget.self,
+                                          uri: Uri.parse(
+                                              galleryItems[index].videoUrl),
+                                          builder: (context, followLink) =>
+                                              OutlinedButton(
+                                                onPressed: followLink,
+                                                child: Image.asset(
+                                                    'images/youtube_icon.png'),
+                                              )),
+                                  ],
+                                );
+                        }),
+                  ),
       ),
-    ));
+    );
   }
 
 // build image with number for other images
@@ -146,14 +197,17 @@ class _GridViewImagesState extends State<GridViewImages> {
     print('1');
     galleryItems.clear();
     if (images != null) {
-      galleryItems.addAll(images.map((e) =>
+      numOfShowItems = images.length  >= widget.numOfEnteredItems? widget.numOfEnteredItems : images.length;
+          galleryItems.addAll(images.map((e) =>
           GalleryItemModel(id: e, videoUrl: "", imageUrl: e, isVideo: false)));
     }
     if (videos != null) {
-      // for (int i = 0; i < videos.length; i++) {
-      //   galleryItems.add(GalleryItemModel(id: videos[i], videoUrl: videos[i], imageUrl: buildVideoThumbnail(videos[i]), isVideo: true));
-      // }
-      galleryItems.addAll(videos.map((e) => GalleryItemModel(id: e, videoUrl: e, imageUrl: buildVideoThumbnail(e), isVideo: true)));
+      numOfShowItems = videos.length  >= widget.numOfEnteredItems? widget.numOfEnteredItems : videos.length;
+      galleryItems.addAll(videos.map((e) => GalleryItemModel(
+          id: e,
+          videoUrl: e,
+          imageUrl: buildVideoThumbnail(e),
+          isVideo: true)));
     }
   }
 }
