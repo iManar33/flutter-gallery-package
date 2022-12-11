@@ -44,9 +44,7 @@ class _GridViewImagesState extends State<GridViewImages> {
     final double runSpacing = 4;
     final w = (MediaQuery.of(context).size.width - runSpacing * (2 - 1)) /
         2; // 2= cross axis count
-
-    return Scaffold(
-      body: Center(
+      return Center(
         child: galleryItems.isEmpty
             ? const SizedBox.shrink()
             : numOfShowItems <= 3
@@ -136,8 +134,8 @@ class _GridViewImagesState extends State<GridViewImages> {
                                 );
                         }),
                   ),
-      ),
-    );
+      );
+
   }
 
 // build image with number for other images
