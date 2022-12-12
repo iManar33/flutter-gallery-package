@@ -9,9 +9,11 @@ import 'package:galleryimage/gallery_item_thumbnail.dart';
 class GridViewImages extends StatefulWidget {
   final List<String> urls;
   final bool isVideo;
+  final int  spacing;
   GridViewImages(
       {required this.urls,
         required  this.isVideo,
+        required this.spacing,
       });
 
   @override
@@ -38,23 +40,24 @@ class _GridViewImagesState extends State<GridViewImages> {
 
   @override
   Widget build(BuildContext context) {
-    final double runSpacing = 4;
-    final w = (MediaQuery.of(context).size.width - runSpacing * (2 - 1)) /
+
+    final w = (MediaQuery.of(context).size.width - widget.spacing * (2 - 1)) /
         2; // 2= cross axis count
     return galleryItems.isEmpty
         ? const SizedBox.shrink()
         : Wrap(
                 alignment: WrapAlignment.start,
-                runSpacing: 8,
-                spacing: 8,
+                runSpacing: 4,
+                spacing: 4,
                 crossAxisAlignment: WrapCrossAlignment.start,
                 children: List.generate(
                   itemsToShow.length,
                   (index) => Container(
                     color: Colors.transparent,
-                    width: w - 10,
-                    height: w - 10,
-                    child: index == 3 ? buildImageNumbers(index)
+                    width: w,
+                    height: w,
+                    child: index == 3 && remainingItems != 0
+                        ? buildImageNumbers(index)
                     : Stack(
                       alignment: Alignment.center,
                       children: [
@@ -136,12 +139,20 @@ class _GridViewImagesState extends State<GridViewImages> {
   buildItemsList(List<String> urls,) {
     // List<String> itemsToShow  = [];
     // int remainingItems = 0;
-    if(urls.length >= 4){
+    if(urls.length > 4){
       for(int i = 0; i < 4;  i++) {
         itemsToShow.add(urls[i]);
       }
       remainingItems = urls.length - itemsToShow.length + 1;
-    } else  {
+
+    }
+         else if (urls.length == 4 ){
+           for (int i = 0; i < 4;  i++) {
+             itemsToShow.add(urls[i]);
+           }
+           remainingItems = urls.length - itemsToShow.length;
+         }
+else  {
       itemsToShow = urls;
       remainingItems = urls.length - itemsToShow.length;
     }
