@@ -10,18 +10,21 @@ class GridViewImages extends StatefulWidget {
   final List<String> urls;
   final bool isVideo;
   final double spacing;
-  final  int  numOfShowItems;
+  final int numOfShowItems;
 
   GridViewImages(
-      {required this.urls, required this.isVideo, required this.spacing ,  required this.numOfShowItems})
+      {required this.urls,
+      required this.isVideo,
+      required this.spacing,
+      required this.numOfShowItems})
   // : assert(numOfShowItems <= imageUrls.length, )
-      ;
+  ;
+
   @override
   State<GridViewImages> createState() => _GridViewImagesState();
 }
 
 class _GridViewImagesState extends State<GridViewImages> {
-
   late final List<GalleryItemModel> galleryItems = <GalleryItemModel>[];
 
   @override
@@ -43,45 +46,46 @@ class _GridViewImagesState extends State<GridViewImages> {
     return galleryItems.isEmpty
         ? const SizedBox.shrink()
         : GridView.builder(
-        primary: false,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount:
-        galleryItems.length > 3 ? widget.numOfShowItems : galleryItems.length,
-        padding: const EdgeInsets.all(0),
-        semanticChildCount: 1,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: widget.spacing,
-            crossAxisSpacing: widget.spacing),
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
-          // return ClipRRect(
-          //     borderRadius:
-          //     const BorderRadius.all(Radius.circular(8)),
-          return index < galleryItems.length - 1 &&
-              index == widget.numOfShowItems - 1
-              ? buildImageNumbers(index)
-              : Stack(
-            alignment: Alignment.center,
-            children: [
-              GalleryItemThumbnail(
-                galleryItem: galleryItems[index],
-                onTap: () {
-                  openImageFullScreen(index);
-                },
-              ),
-              if (galleryItems[index].isVideo == true)
-                Link(
-                    target: LinkTarget.self,
-                    uri: Uri.parse(galleryItems[index].videoUrl),
-                    builder: (context, followLink) => OutlinedButton(
-                      onPressed: followLink,
-                      child:
-                      Image.asset('images/youtube_icon.png'),
-                    )),
-            ],
-          );
-        });
+            primary: false,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: galleryItems.length > 3
+                ? widget.numOfShowItems
+                : galleryItems.length,
+            padding: const EdgeInsets.all(0),
+            semanticChildCount: 1,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: widget.spacing,
+                crossAxisSpacing: widget.spacing),
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              // return ClipRRect(
+              //     borderRadius:
+              //     const BorderRadius.all(Radius.circular(8)),
+              return index < galleryItems.length - 1 &&
+                      index == widget.numOfShowItems - 1
+                  ? buildImageNumbers(index)
+                  : Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        GalleryItemThumbnail(
+                          galleryItem: galleryItems[index],
+                          onTap: () {
+                            openImageFullScreen(index);
+                          },
+                        ),
+                        if (galleryItems[index].isVideo == true)
+                          Link(
+                              target: LinkTarget.self,
+                              uri: Uri.parse(galleryItems[index].videoUrl),
+                              builder: (context, followLink) => OutlinedButton(
+                                    onPressed: followLink,
+                                    child:
+                                        Image.asset('images/youtube_icon.png'),
+                                  )),
+                      ],
+                    );
+            });
   }
 
 // build image with number for other images
@@ -102,9 +106,9 @@ class _GridViewImagesState extends State<GridViewImages> {
                   target: LinkTarget.self,
                   uri: Uri.parse(galleryItems[index].videoUrl),
                   builder: (context, followLink) => OutlinedButton(
-                    onPressed: followLink,
-                    child: Image.asset('images/youtube_icon.png'),
-                  )),
+                        onPressed: followLink,
+                        child: Image.asset('images/youtube_icon.png'),
+                      )),
             Container(
               color: Colors.black.withOpacity(.7),
               child: Center(
@@ -145,8 +149,11 @@ class _GridViewImagesState extends State<GridViewImages> {
           GalleryItemModel(id: e, videoUrl: "", imageUrl: e, isVideo: false)));
     }
     if (urls != null && isVideo == true) {
-      galleryItems.addAll(urls.map((e) =>
-          GalleryItemModel(id: e, videoUrl: "", imageUrl: buildVideoThumbnail(e), isVideo: true)));
+      galleryItems.addAll(urls.map((e) => GalleryItemModel(
+          id: e,
+          videoUrl: e,
+          imageUrl: buildVideoThumbnail(e),
+          isVideo: true)));
     }
   }
 }

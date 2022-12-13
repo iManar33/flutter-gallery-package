@@ -32,8 +32,8 @@ class GridGrid extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          width: 133,
-          child: GridViewImages(urls: imageURLs, isVideo: false, spacing: 4 , numOfShowItems: 4,),
+          width: 300,
+          child: GridViewImages(urls: ytURLs, isVideo: true, spacing: 4 , numOfShowItems: 4,),
         ),
       ),
     );
