@@ -43,6 +43,10 @@ class _GridViewImagesState extends State<GridViewImages> {
 
   @override
   Widget build(BuildContext context) {
+    final w = (MediaQuery.of(context).size.width - widget.spacing * (2 - 1)) /
+        2;
+    final h = (MediaQuery.of(context).size.height - widget.spacing * (2 - 1)) /
+        2;
     return galleryItems.isEmpty
         ? const SizedBox.shrink()
         : GridView.builder(
@@ -56,7 +60,10 @@ class _GridViewImagesState extends State<GridViewImages> {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: widget.spacing,
-                crossAxisSpacing: widget.spacing),
+                crossAxisSpacing: widget.spacing,
+              childAspectRatio: w/h,
+
+            ),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               // return ClipRRect(

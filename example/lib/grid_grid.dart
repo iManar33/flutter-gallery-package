@@ -19,7 +19,7 @@ class GridGrid extends StatelessWidget {
 
   List<String> ytURLs = [
     "https://www.youtube.com/watch?v=qPj50i3gkAo",
-    "https://www.youtube.com/watch?v=R4jQemNpxn4",
+    // "https://www.youtube.com/watch?v=R4jQemNpxn4",
     // "https://www.youtube.com/watch?v=X-yIEMduRXk&list=RDX-yIEMduRXk&start_radio=1",
     // "https://www.youtube.com/watch?v=qPj50i3gkAo",
     // "https://www.youtube.com/watch?v=R4jQemNpxn4",
@@ -30,10 +30,10 @@ class GridGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          width: 300,
-          child: GridViewImages(urls: ytURLs, isVideo: true, spacing: 4 , numOfShowItems: 4,),
-        ),
+        body: SizedBox(
+            height: 400,
+            width: 600,
+            child: GridViewImages(urls: ytURLs, isVideo: true, spacing: 4 , numOfShowItems: 4,)),
       ),
     );
 
