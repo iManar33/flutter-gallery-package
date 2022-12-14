@@ -30,10 +30,13 @@ class GridGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SizedBox(
-            height: 400,
-            width: 600,
-            child: GridViewImages(urls: ytURLs, isVideo: true, spacing: 4 , numOfShowItems: 4,)),
+        body: Column(
+          children: [
+            SizedBox(
+                height: 400,
+                child: GridViewImages(urls: ytURLs, isVideo: true, spacing: 4 , numOfShowItems: 4,)),
+          ],
+        ),
       ),
     );
 
