@@ -80,7 +80,6 @@ class _GridViewImagesState extends State<GridViewImages> {
                         ),
                         if (galleryItems[index].isVideo == true)
                           Link(
-                              target: LinkTarget.self,
                               uri: Uri.parse(galleryItems[index].videoUrl),
                               builder: (context, followLink) => OutlinedButton(
                                     onPressed: followLink,
@@ -107,7 +106,6 @@ class _GridViewImagesState extends State<GridViewImages> {
             ),
             if (galleryItems[index].isVideo == true)
               Link(
-                  target: LinkTarget.self,
                   uri: Uri.parse(galleryItems[index].videoUrl),
                   builder: (context, followLink) => OutlinedButton(
                         onPressed: followLink,

@@ -76,11 +76,10 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
           ),
           if (item.isVideo == true)
       Link(
-      target: LinkTarget.self,
-          uri: Uri.parse('${item.videoUrl}'),
+          uri: Uri.parse(item.videoUrl),
           builder: (context, followLink) => OutlinedButton(
             onPressed: followLink,
-            child:  Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
+            child:  const Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
           )),
         ]),
 
