@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:galleryimage/galleryimage.dart';
-
 class GridGrid extends StatelessWidget {
   List<String> imageURLs = [
     "https://scx2.b-cdn.net/gfx/news/hires/2019/2-nature.jpg",

@@ -81,7 +81,7 @@ class _GridViewImagesState extends State<GridViewImages> {
                               builder: (context, followLink) => OutlinedButton(
                                     onPressed: followLink,
                                     child:
-                                        Image.asset('images/youtube_icon.png'),
+                                    Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
                                   )),
                       ],
                     );
@@ -107,7 +107,7 @@ class _GridViewImagesState extends State<GridViewImages> {
                   uri: Uri.parse(galleryItems[index].videoUrl),
                   builder: (context, followLink) => OutlinedButton(
                         onPressed: followLink,
-                        child: Image.asset('images/youtube_icon.png'),
+                        child: Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
                       )),
             Container(
               color: Colors.black.withOpacity(.7),
