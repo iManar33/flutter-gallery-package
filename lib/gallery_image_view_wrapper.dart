@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:url_launcher/link.dart';
+// import 'package:url_launcher/link.dart';
 import 'gallery_item_model.dart';
+import 'galleryimage.dart';
 
 // to view image in full screen
 class GalleryImageViewWrapper extends StatefulWidget {
@@ -75,12 +76,14 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           if (item.isVideo == true)
-      Link(
-          uri: Uri.parse(item.videoUrl),
-          builder: (context, followLink) => OutlinedButton(
-            onPressed: followLink,
-            child:  const Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
-          )),
+            link(galleryItem: item),
+      // Link(
+      //     uri: Uri.parse(item.videoUrl),
+      //     builder: (context, followLink) => OutlinedButton(
+      //       onPressed: followLink,
+      //       child:  const Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
+      //     )),
+
         ]),
 
 

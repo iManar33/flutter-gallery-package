@@ -81,13 +81,7 @@ class _GridViewImagesState extends State<GridViewImages> {
                           },
                         ),
                         if (galleryItems[index].isVideo == true)
-                          Link(
-                              uri: Uri.parse(galleryItems[index].videoUrl),
-                              builder: (context, followLink) => OutlinedButton(
-                                    onPressed: followLink,
-                                    child:
-                                    Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
-                                  )),
+                          link(galleryItem: galleryItems[index]),
                       ],
                     );
             });
@@ -108,12 +102,13 @@ class _GridViewImagesState extends State<GridViewImages> {
               galleryItem: galleryItems[index],
             ),
             if (galleryItems[index].isVideo == true)
-              Link(
-                  uri: Uri.parse(galleryItems[index].videoUrl),
-                  builder: (context, followLink) => OutlinedButton(
-                        onPressed: followLink,
-                        child: Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
-                      )),
+              link(galleryItem: galleryItems[index]),
+              // Link(
+              //     uri: Uri.parse(galleryItems[index].videoUrl),
+              //     builder: (context, followLink) => OutlinedButton(
+              //           onPressed: followLink,
+              //           child: Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
+              //         )),
             Container(
               color: Colors.black.withOpacity(.7),
               child: Center(
@@ -160,5 +155,25 @@ class _GridViewImagesState extends State<GridViewImages> {
           imageUrl: buildVideoThumbnail(e),
           isVideo: true)));
     }
+  }
+}
+
+class link extends StatelessWidget {
+  const link({
+    Key? key,
+    required this.galleryItem,
+  }) : super(key: key);
+
+  final GalleryItemModel galleryItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return Link(
+        uri: Uri.parse(galleryItem.videoUrl),
+        builder: (context, followLink) => OutlinedButton(
+              onPressed: followLink,
+              child:
+              Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
+            ));
   }
 }
