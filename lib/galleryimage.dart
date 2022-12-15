@@ -45,13 +45,7 @@ class _GridViewImagesState extends State<GridViewImages> {
     return image;
   }
 
-  /// safe launch for urls that doesn't contain scheme
-  Future<void> launchUrl(String url) async {
-    if (!(url.startsWith('https://') || url.startsWith('http://'))) {
-      url = 'https://$url';
-    }
-    await launchUrlString(url, mode: LaunchMode.externalApplication);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -180,12 +174,19 @@ class link extends StatelessWidget {
 
   final GalleryItemModel galleryItem;
 
+  /// safe launch for urls that doesn't contain scheme
+  Future<void> launchUrl(String url) async {
+    if (!(url.startsWith('https://') || url.startsWith('http://'))) {
+      url = 'https://$url';
+    }
+    await launchUrlString(url, mode: LaunchMode.externalApplication);
+  }
   @override
   Widget build(BuildContext context) {
     return Link(
         uri: Uri.parse(galleryItem.videoUrl),
         builder: (context, followLink) => OutlinedButton(
-              onPressed: ()  =>   launchUrl(Uri.parse(galleryItem.videoUrl)),
+              onPressed: ()  =>   launchUrl(galleryItem.videoUrl),
               child:
               Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
             ));
