@@ -1,10 +1,11 @@
 library galleryimage;
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 import 'package:galleryimage/gallery_image_view_wrapper.dart';
 import 'package:galleryimage/gallery_item_model.dart';
 import 'package:galleryimage/gallery_item_thumbnail.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class GridViewImages extends StatefulWidget {
   final List<String> urls;
@@ -44,6 +45,14 @@ class _GridViewImagesState extends State<GridViewImages> {
     return image;
   }
 
+  /// safe launch for urls that doesn't contain scheme
+  Future<void> launchUrl(String url) async {
+    if (!(url.startsWith('https://') || url.startsWith('http://'))) {
+      url = 'https://$url';
+    }
+    await launchUrlString(url, mode: LaunchMode.externalApplication);
+  }
+
   @override
   Widget build(BuildContext context) {
     return galleryItems.isEmpty
@@ -81,6 +90,8 @@ class _GridViewImagesState extends State<GridViewImages> {
                           },
                         ),
                         if (galleryItems[index].isVideo == true)
+
+
                           link(galleryItem: galleryItems[index]),
                       ],
                     );
@@ -156,6 +167,9 @@ class _GridViewImagesState extends State<GridViewImages> {
           isVideo: true)));
     }
   }
+
+
+
 }
 
 class link extends StatelessWidget {
@@ -171,9 +185,10 @@ class link extends StatelessWidget {
     return Link(
         uri: Uri.parse(galleryItem.videoUrl),
         builder: (context, followLink) => OutlinedButton(
-              onPressed: followLink,
+              onPressed: ()  =>   launchUrl(Uri.parse(galleryItem.videoUrl)),
               child:
               Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
             ));
   }
 }
+
