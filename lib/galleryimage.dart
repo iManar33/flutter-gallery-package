@@ -11,8 +11,10 @@ class GridViewImages extends StatefulWidget {
   final bool isVideo;
   final double spacing;
   final int numOfShowItems;
+  // final  Future<void>? onPressed;
 
   GridViewImages(
+      // this.onPressed,
       {required this.urls,
       required this.isVideo,
       required this.spacing,
@@ -37,7 +39,8 @@ class _GridViewImagesState extends State<GridViewImages> {
     print(url);
     var videoID = Uri.parse('$url').queryParameters['v'];
     print('bbbbbbbbbbbbbbbbbbb $videoID');
-    String image = 'https://img.youtube.com/vi/$videoID/maxresdefault.jpg';
+    String image = 'https://img.youtube.com/vi/$videoID/hqdefault.jpg';
+    print(image);
     return image;
   }
 
@@ -58,7 +61,6 @@ class _GridViewImagesState extends State<GridViewImages> {
                 mainAxisSpacing: widget.spacing,
                 crossAxisSpacing: widget.spacing,
               childAspectRatio: 1,
-              // childAspectRatio: galleryItems.length != 1  ?  1 : w/h,
 
             ),
             shrinkWrap: true,
@@ -90,6 +92,7 @@ class _GridViewImagesState extends State<GridViewImages> {
                     );
             });
   }
+
 
 // build image with number for other images
   Widget buildImageNumbers(int index) {
