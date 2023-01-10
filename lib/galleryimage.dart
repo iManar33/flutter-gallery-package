@@ -151,6 +151,7 @@ class _GridViewImagesState extends State<GridViewImages> {
 // clear and build list
   buildItemsList(List<String> urls, bool isVideo  , List<String> titles) {
     print('1');
+    print(titles);
     galleryItems.clear();
     if (isVideo == false) {
       // galleryItems.addAll(urls.map((e) =>
@@ -158,6 +159,7 @@ class _GridViewImagesState extends State<GridViewImages> {
       for(int i =0 ; i<urls.length ; i++){
         galleryItems.add(GalleryItemModel(title: titles[i], id: urls[i], videoUrl: "", imageUrl: urls[i], isVideo: false));
       }
+      print(galleryItems.map((e) => e.title));
     }
    else if (isVideo == true) {
       // galleryItems.addAll(urls.map((e) => GalleryItemModel(
@@ -168,6 +170,7 @@ class _GridViewImagesState extends State<GridViewImages> {
       for(int i =0 ; i<urls.length ; i++){
         galleryItems.add(GalleryItemModel(title: titles[i], id: urls[i], videoUrl: urls[i], imageUrl:buildVideoThumbnail(urls[i]) , isVideo: true));
       }
+      print(galleryItems.map((e) => e.title));
     }
   }
 
