@@ -12,10 +12,12 @@ class GridViewImages extends StatefulWidget {
   final bool isVideo;
   final double spacing;
   final int numOfShowItems;
+  List<String>  titles;
   // final  Future<void>? onPressed;
 
   GridViewImages(
       // this.onPressed,
+      this.titles,
       {required this.urls,
       required this.isVideo,
       required this.spacing,
@@ -32,7 +34,7 @@ class _GridViewImagesState extends State<GridViewImages> {
 
   @override
   void initState() {
-    buildItemsList(widget.urls, widget.isVideo);
+    buildItemsList(widget.urls, widget.isVideo, widget.titles);
     super.initState();
   }
 
@@ -133,7 +135,7 @@ class _GridViewImagesState extends State<GridViewImages> {
       context,
       MaterialPageRoute(
         builder: (context) => GalleryImageViewWrapper(
-          titleGallery: '',
+          titleGallery: 'hello there',
           galleryItems: galleryItems,
           backgroundDecoration: const BoxDecoration(
             color: Colors.black,
@@ -146,19 +148,25 @@ class _GridViewImagesState extends State<GridViewImages> {
   }
 
 // clear and build list
-  buildItemsList(List<String> urls, bool isVideo) {
+  buildItemsList(List<String> urls, bool isVideo  , List<String> titles) {
     print('1');
     galleryItems.clear();
-    if (urls != null && isVideo == false) {
-      galleryItems.addAll(urls.map((e) =>
-          GalleryItemModel(id: e, videoUrl: "", imageUrl: e, isVideo: false)));
+    if (isVideo == false) {
+      // galleryItems.addAll(urls.map((e) =>
+      //     GalleryItemModel(id: e, videoUrl: "", imageUrl: e, isVideo: false)));
+      for(int i =0 ; i<urls.length ; i++){
+        galleryItems.add(GalleryItemModel(title: titles[i], id: urls[i], videoUrl: "", imageUrl: urls[i], isVideo: false));
+      }
     }
-    if (urls != null && isVideo == true) {
-      galleryItems.addAll(urls.map((e) => GalleryItemModel(
-          id: e,
-          videoUrl: e,
-          imageUrl: buildVideoThumbnail(e),
-          isVideo: true)));
+   else if (isVideo == true) {
+      // galleryItems.addAll(urls.map((e) => GalleryItemModel(
+      //     id: e,
+      //     videoUrl: e,
+      //     imageUrl: buildVideoThumbnail(e),
+      //     isVideo: true)));
+      for(int i =0 ; i<urls.length ; i++){
+        galleryItems.add(GalleryItemModel(title: titles[i], id: urls[i], videoUrl: urls[i], imageUrl:buildVideoThumbnail(urls[i]) , isVideo: true));
+      }
     }
   }
 

@@ -41,7 +41,8 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${_currentIndex+1} of ${widget.galleryItems.length}'),
+        title:Text('${_currentIndex+1} of ${widget.galleryItems.length}'),
+        //
       ),
       body: Container(
         decoration: widget.backgroundDecoration,
