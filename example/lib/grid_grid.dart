@@ -23,16 +23,16 @@ class GridGrid extends StatelessWidget {
     // "https://www.youtube.com/watch?v=qPj50i3gkAo",
     "https://www.youtube.com/watch?v=R4jQemNpxn4",
     "https://www.youtube.com/watch?v=X-yIEMduRXk&list=RDX-yIEMduRXk&start_radio=1",
-    "https://www.youtube.com/watch?v=qPj50i3gkAo",
-    "https://www.youtube.com/watch?v=R4jQemNpxn4",
+    // "https://www.youtube.com/watch?v=qPj50i3gkAo",
+    // "https://www.youtube.com/watch?v=R4jQemNpxn4",
     // "https://www.youtube.com/watch?v=R4jQemNpxn4",
   ];
 
   List<String> titles = [
-    'dgbgf',
     'I am a title1',
     'I am a title2',
     'I am a title3',
+    'I am a title4',
   ];
 
   @override
@@ -42,14 +42,13 @@ class GridGrid extends StatelessWidget {
         body: Column(
           children: [
 
-          //   SizedBox(
-          //       height: 400,
-          //       child: GridViewImages(titles, urls: urls, isVideo: isVideo, spacing: spacing, numOfShowItems: numOfShowItems)
-          //       // GridViewImages(titles:titles ,urls: ytURLs, isVideo: true, spacing: 4 , numOfShowItems: 4,
-          //       // )),
-          ],
+            SizedBox(
+                height: 400,
+                // child: GridViewImages(urls: imageURLs , titles: titles, isVideo: false, spacing: 1, numOfShowItems: 4),
+              child: GridViewImages(urls: ytURLs , titles: titles, isVideo: true, spacing: 1, numOfShowItems: 4),
+                )]
         ),
-      ),
+        ),
     );
 
   }

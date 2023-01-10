@@ -36,12 +36,14 @@ class GalleryImageViewWrapper extends StatefulWidget {
 class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   final minScale = PhotoViewComputedScale.contained * 0.8;
   final maxScale = PhotoViewComputedScale.covered * 8;
-  int _currentIndex = 3;
+  List<String> titles=[''];
+  // int _currentIndex = 3;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text('${_currentIndex+1} of ${widget.galleryItems.length}'),
+        title:Text(titles.last),
+        // Text('${_currentIndex+1} of ${widget.galleryItems.length}'),
         //
       ),
       body: Container(
@@ -59,7 +61,10 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
           scrollDirection: widget.scrollDirection,
           onPageChanged: (int index) {
             setState(() {
-              _currentIndex = index;
+
+             titles.add( widget.galleryItems[index].title);
+             print(titles);
+              // _currentIndex = index;
             });
           },
         ),

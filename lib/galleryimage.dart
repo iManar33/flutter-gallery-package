@@ -12,13 +12,14 @@ class GridViewImages extends StatefulWidget {
   final bool isVideo;
   final double spacing;
   final int numOfShowItems;
-  List<String>  titles;
+  final List<String>  titles;
   // final  Future<void>? onPressed;
 
   GridViewImages(
       // this.onPressed,
-      this.titles,
+
       {required this.urls,
+        required this.titles,
       required this.isVideo,
       required this.spacing,
       required this.numOfShowItems})
