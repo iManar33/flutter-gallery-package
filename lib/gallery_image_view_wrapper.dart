@@ -37,12 +37,12 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
   final minScale = PhotoViewComputedScale.contained * 0.8;
   final maxScale = PhotoViewComputedScale.covered * 8;
   List<String> titles=[''];
-  // int _currentIndex = 3;
+  int _currentIndex = 3;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text(titles.last),
+        title:Text('${titles.last} (${_currentIndex+1} of ${widget.galleryItems.length})'),
         // Text('${_currentIndex+1} of ${widget.galleryItems.length}'),
         //
       ),
@@ -62,9 +62,9 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
           onPageChanged: (int index) {
             setState(() {
 
-             titles.add( widget.galleryItems[index].title);
+             titles.add( widget.galleryItems[index].title?? '');
              print(titles);
-              // _currentIndex = index;
+              _currentIndex = index;
             });
           },
         ),

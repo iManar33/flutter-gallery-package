@@ -45,7 +45,7 @@ class GridGrid extends StatelessWidget {
             SizedBox(
                 height: 400,
                 // child: GridViewImages(urls: imageURLs , titles: titles, isVideo: false, spacing: 1, numOfShowItems: 4),
-              child: GridViewImages(urls: ytURLs , titles: titles, isVideo: true, spacing: 1, numOfShowItems: 4),
+              child: GridViewImages(urls: ytURLs , titles:titles, isVideo: true, spacing: 1, numOfShowItems: 4),
                 )]
         ),
         ),

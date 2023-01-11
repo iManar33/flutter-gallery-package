@@ -1,4 +1,5 @@
 library galleryimage;
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
@@ -12,14 +13,15 @@ class GridViewImages extends StatefulWidget {
   final bool isVideo;
   final double spacing;
   final int numOfShowItems;
-  final List<String>  titles;
+  final List<String> titles;
+
   // final  Future<void>? onPressed;
 
   GridViewImages(
       // this.onPressed,
 
       {required this.urls,
-        required this.titles,
+      this.titles = const [],
       required this.isVideo,
       required this.spacing,
       required this.numOfShowItems})
@@ -48,8 +50,6 @@ class _GridViewImagesState extends State<GridViewImages> {
     return image;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return galleryItems.isEmpty
@@ -63,11 +63,10 @@ class _GridViewImagesState extends State<GridViewImages> {
             padding: const EdgeInsets.all(0),
             semanticChildCount: 1,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: galleryItems.length != 1 ? 2 : 1,
-                mainAxisSpacing: widget.spacing,
-                crossAxisSpacing: widget.spacing,
+              crossAxisCount: galleryItems.length != 1 ? 2 : 1,
+              mainAxisSpacing: widget.spacing,
+              crossAxisSpacing: widget.spacing,
               childAspectRatio: 1,
-
             ),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
@@ -87,14 +86,11 @@ class _GridViewImagesState extends State<GridViewImages> {
                           },
                         ),
                         if (galleryItems[index].isVideo == true)
-
-
                           link(galleryItem: galleryItems[index]),
                       ],
                     );
             });
   }
-
 
 // build image with number for other images
   Widget buildImageNumbers(int index) {
@@ -111,12 +107,12 @@ class _GridViewImagesState extends State<GridViewImages> {
             ),
             if (galleryItems[index].isVideo == true)
               link(galleryItem: galleryItems[index]),
-              // Link(
-              //     uri: Uri.parse(galleryItems[index].videoUrl),
-              //     builder: (context, followLink) => OutlinedButton(
-              //           onPressed: followLink,
-              //           child: Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
-              //         )),
+            // Link(
+            //     uri: Uri.parse(galleryItems[index].videoUrl),
+            //     builder: (context, followLink) => OutlinedButton(
+            //           onPressed: followLink,
+            //           child: Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
+            //         )),
             Container(
               color: Colors.black.withOpacity(.7),
               child: Center(
@@ -149,33 +145,59 @@ class _GridViewImagesState extends State<GridViewImages> {
   }
 
 // clear and build list
-  buildItemsList(List<String> urls, bool isVideo  , List<String> titles) {
+  buildItemsList(List<String> urls, bool isVideo, List<String> titles) {
     print('1');
     print(titles);
     galleryItems.clear();
     if (isVideo == false) {
       // galleryItems.addAll(urls.map((e) =>
       //     GalleryItemModel(id: e, videoUrl: "", imageUrl: e, isVideo: false)));
-      for(int i =0 ; i<urls.length ; i++){
-        galleryItems.add(GalleryItemModel(title: titles[i], id: urls[i], videoUrl: "", imageUrl: urls[i], isVideo: false));
+      for (int i = 0; i < urls.length; i++) {
+        if (titles.isNotEmpty) {
+          print('not empty');
+          galleryItems.add(GalleryItemModel(
+              title: titles[i],
+              id: urls[i],
+              videoUrl: "",
+              imageUrl: urls[i],
+              isVideo: false));
+        } else {
+          galleryItems.add(GalleryItemModel(
+              title: '',
+              id: urls[i],
+              videoUrl: "",
+              imageUrl: urls[i],
+              isVideo: false));
+        }
+        print(galleryItems.map((e) => e.title).toList());
       }
-      print(galleryItems.map((e) => e.title));
-    }
-   else if (isVideo == true) {
+    } else if (isVideo == true) {
       // galleryItems.addAll(urls.map((e) => GalleryItemModel(
       //     id: e,
       //     videoUrl: e,
       //     imageUrl: buildVideoThumbnail(e),
       //     isVideo: true)));
-      for(int i =0 ; i<urls.length ; i++){
-        galleryItems.add(GalleryItemModel(title: titles[i], id: urls[i], videoUrl: urls[i], imageUrl:buildVideoThumbnail(urls[i]) , isVideo: true));
+
+      for (int i = 0; i < urls.length; i++) {
+        if (titles.isNotEmpty) {
+          galleryItems.add(GalleryItemModel(
+              title: titles[i],
+              id: urls[i],
+              videoUrl: urls[i],
+              imageUrl: buildVideoThumbnail(urls[i]),
+              isVideo: true));
+        } else {
+          galleryItems.add(GalleryItemModel(
+              title: '',
+              id: urls[i],
+              videoUrl: urls[i],
+              imageUrl:  buildVideoThumbnail(urls[i]),
+              isVideo: true));
+        }
       }
-      print(galleryItems.map((e) => e.title));
+      print(galleryItems.map((e) => e.title).toList());
     }
   }
-
-
-
 }
 
 class link extends StatelessWidget {
@@ -193,15 +215,16 @@ class link extends StatelessWidget {
     }
     await launchUrlString(url, mode: LaunchMode.externalApplication);
   }
+
   @override
   Widget build(BuildContext context) {
     return Link(
         uri: Uri.parse(galleryItem.videoUrl),
         builder: (context, followLink) => OutlinedButton(
-              onPressed: ()  =>   launchUrl(galleryItem.videoUrl),
-              child:
-              Image(image: AssetImage('images/youtube_icon.png', package: 'galleryimage')),
+              onPressed: () => launchUrl(galleryItem.videoUrl),
+              child: Image(
+                  image: AssetImage('images/youtube_icon.png',
+                      package: 'galleryimage')),
             ));
   }
 }
-
