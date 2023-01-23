@@ -51,7 +51,7 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            '${widget.galleryItems[_currentIndex].title ?? ''} (${_currentIndex + 1} of ${widget.galleryItems.length})'),
+            '${widget.galleryItems[_currentIndex].title ?? ''} (${_currentIndex + 1} - ${widget.galleryItems.length})'),
         // Text('${_currentIndex+1} of ${widget.galleryItems.length}'),
         //
       ),
